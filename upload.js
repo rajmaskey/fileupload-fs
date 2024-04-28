@@ -1,4 +1,4 @@
-//do-not-change
+// do-not-change
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
@@ -23,6 +23,12 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/app.html'));
 });
 
+// Serve static files from the specified directory
+app.use(express.static(path.join(__dirname, '/uploads')));
+
+// Enable directory listing for /uploads
+app.use('/uploads', express.static('uploads', { 'index': ['index.html', 'index.htm', 'index'] }));
+
 // Handle file upload
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
@@ -35,4 +41,3 @@ app.post('/upload', upload.single('file'), (req, res) => {
 app.listen(port, () => {
   console.log(`Server is listening at http://localhost:${port}`);
 });
-
